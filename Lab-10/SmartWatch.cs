@@ -26,7 +26,7 @@ namespace Lab_10
       private set => operatiningSystem = value;
     }
 
-    public override string ToString() => "Умные часы " + BrandName + " " + YearOfIssue + " года выпуска. ОС — " + OperatingSystem + " измеритель пульса " + (HeartRateSensor ? "присутствует." : "отсутствует.");
+    public override string ToString() => "SmartWatch: " + BrandName + "; " + YearOfIssue + "; " + DisplayType + "; " + OperatingSystem + "; " + HeartRateSensor;
     public override void Init() => (this.BrandName, this.YearOfIssue, this.DisplayType, this.OperatingSystem, this.HeartRateSensor) = (GetString("имя бренда"), GetShort("год выпуска"), GetString("тип дисплея"), GetString("название ОС"), true);
     public override void RandomInit()
     {

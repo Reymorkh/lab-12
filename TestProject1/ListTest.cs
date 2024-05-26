@@ -202,6 +202,28 @@ namespace Tests
       Assert.AreEqual($"{watch4}\n{watch3}\n{watch2}\n{watch1}\n", list.ShowItems());
     }
 
+    [TestMethod]
+    public void CloneListTest()
+    {
+      Watch watch1 = new Watch();
+      watch1.RandomInit();
+      Watch watch2 = new Watch();
+      watch2.RandomInit();
+      Watch watch3 = new Watch();
+      watch3.RandomInit();
+      Watch watch4 = new Watch("adsd", 123);
+
+      DoublyLinkedList<Watch> list = new DoublyLinkedList<Watch>();
+
+      list.AddFirst(watch1);
+      list.AddFirst(watch2);
+      list.AddFirst(watch3);
+      list.AddFirst(watch4);
+      
+      DoublyLinkedList<Watch> newList = new DoublyLinkedList<Watch>(list);
+
+      Assert.AreEqual($"{watch4}\n{watch3}\n{watch2}\n{watch1}\n", newList.ShowItems());
+    }
 
 
 

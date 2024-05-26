@@ -1,12 +1,14 @@
 ﻿
-
+using Lab_10;
 
 namespace lab_12
 {
-  internal class HTable<T>
+  internal class HTable<T> where T: IInit, ICloneable, new()
   {
     public Node<T>[]? table;
     public int Size { get; set; }
+    const double loadFactor = 0.72;
+    int hashSize = 0;
 
     public HTable(int size)
     {
@@ -16,31 +18,41 @@ namespace lab_12
 
     public bool Add(T item)
     {
-      Node<T> point = new Node<T>(item);
       if (item == null)
         return false;
-      int index = Math.Abs(point.GetHashCode()) % Size;
+      if (hashSize / table.Length < loadFactor)
+        TableResize(table.Length * 2);
+      Node<T> newNode = new Node<T>(item);
+      int index = GetIndex(newNode);
       if (table[index] == null)
-        table[index] = point;
+        table[index] = newNode;
       else
       {
         Node<T> cur = table[index];
-        if (string.Compare(cur.ToString(), point.ToString()) == 0)
+        if (string.Compare(cur.ToString(), newNode.ToString()) == 0)
           return false;
         while (cur.Next != null)
         {
-          if (string.Compare(cur.ToString(), point.ToString()) == 0)
+          if (string.Compare(cur.ToString(), newNode.ToString()) == 0)
             return false;
           cur = cur.Next;
         }
-        cur.Next = point;
+        cur.Next = newNode;
       }
+      hashSize++;
       return true;
     }
 
-    public Node<T> this[int index] { get => table[index] == null ? throw new Exception("") : table[index]; }
 
 
+
+    void TableResize(int length)
+    {
+
+    }
+    // public Node<T> this[int index] { get => table[index] == null ? throw new NullReferenceException("") : table[index]; }
+
+    public int GetIndex(Node<T> node) => Math.Abs(node.GetHashCode()) % Size;
 
   }
 

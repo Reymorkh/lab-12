@@ -8,6 +8,7 @@ namespace lab_12
 
     int count = 0;
 
+    public int Count {  get { return count; } }
 
     Node? First
     {
@@ -44,6 +45,25 @@ namespace lab_12
 
     public DoublyLinkedList() { }
 
+    public DoublyLinkedList(DoublyLinkedList<T> list)
+    {
+      list.count = count;
+
+      First = list.First.Clone();
+      Last = First;
+
+      Node temp = list.First;
+      temp = temp.Next;
+      while (temp != null)
+      {
+        Last.Next = temp.Clone();
+        Last.Next.Previous = Last;
+        Last = Last.Next;
+        temp = temp.Next;
+      }
+    }
+
+
     public string ShowItems()
     {
       if (First == null)
@@ -63,7 +83,9 @@ namespace lab_12
 
     public override string ToString() => ShowItems();
 
+    public DoublyLinkedList<T> Clone() => new DoublyLinkedList<T>(this);
 
+    #region Добавление
     public void AddFirst(T item)
     {
       if (First == null)
@@ -82,7 +104,7 @@ namespace lab_12
 
     public string Insert(T item, int index)
     {
-      if (index >= count - 1)
+      if (index > count - 1)
       {
         AddLast(item);
         if (index == count - 1)
@@ -133,10 +155,11 @@ namespace lab_12
       }
       count++;
     }
+#endregion
 
     //public string DeleteByIndex(int index)
     //{
-      
+
     //}
     //public string DeleteByIndex(int index)
     //{
@@ -148,6 +171,7 @@ namespace lab_12
 
     //}
 
+    #region Удаление
     void DeleteNode(Node node)
     {
       if (node.Next == null && node.Previous == null) // нода - единственный элемент в списке
@@ -233,10 +257,28 @@ namespace lab_12
       return "";
     }
 
+    public string DeleteLast()
+    {
+      if (count == 0)
+        return "В списке недостаточно элементов для удаления.";
+      if (count == 1)
+      {
+        First = null;
+        Last = null;
+      }
+      else
+      {
+        Last = Last.Previous;
+        Last.Next = null;
+      }
+      count--;
+      return "";
+    }
+#endregion
 
     class Node
     {
-      public T? Value { get; set; }
+      public T Value { get; set; }
       public Node? Next { get; set; }
       public Node? Previous { get; set; }
 
@@ -271,7 +313,7 @@ namespace lab_12
         return Value == null ? 0 : Value.GetHashCode();
       }
 
-
+      public Node Clone() => new Node((T)Value.Clone());
 
     }
   }

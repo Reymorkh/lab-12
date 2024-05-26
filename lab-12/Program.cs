@@ -97,7 +97,7 @@ namespace lab_12
             break;
           case "delete":
 
-            Console.WriteLine("1. Первого.\n2. По году выпуска.\n3. По названию бренда.\n0. Назад.");
+            Console.WriteLine("1. Первого.\n2. По году выпуска.\n3. По названию бренда.\n4. Удалить последний.\n0. Назад.");
             break;
         }
         #endregion
@@ -116,7 +116,10 @@ namespace lab_12
                 switch (linkedlistoption)
                 {
                   case "base": // базовое
-                    list = new DoublyLinkedList<Watch>();
+                    if (list != null)
+                      list.Reset();
+                    else
+                      list = new DoublyLinkedList<Watch>();
                     break;
 
                   case "add": //добавление в начало
@@ -125,6 +128,8 @@ namespace lab_12
 
                   case "delete": //удаление в первого
                     errorMessage = list.DeleteFirst();
+                    if (list.Count == 0)
+                      linkedlistoption = "base";
                     break;
                 }
                 break;
@@ -136,7 +141,7 @@ namespace lab_12
                     if (list != null)
                       linkedlistoption = "add";
                     else
-                      errorMessage = "Нельзя добавить объект из несущестувующей коллекции.";
+                      errorMessage = "Нельзя добавить объект в несущестувующую коллекции.";
                     break;
 
                   case "add": //добавление по индексу
@@ -145,6 +150,8 @@ namespace lab_12
 
                   case "delete": //удаление по индексу
                     errorMessage = list.DeleteByYear(GetShort("год выпуска"));
+                    if (list.Count == 0)
+                      linkedlistoption = "base";
                     break;
                 }
                 break;
@@ -153,18 +160,20 @@ namespace lab_12
                 switch (linkedlistoption)
                 {
                   case "base": // переключение на удаление
-                    if (list != null)
+                    if (list != null && list.Count != 0)
                       linkedlistoption = "delete";
                     else
-                      errorMessage = "Нельзя удалить объект из несущестувующей коллекции.";
+                      errorMessage = "Нельзя удалить объект из " + (list == null ? "несущестувующей" : "пустой") + " коллекции.";
                     break;
 
                   case "add": //добавление в конец
                     list.AddLast(CreateWatchObject());
                     break;
 
-                  case "delete": //удаление последнего
+                  case "delete": //удаление по имени
                     errorMessage = list.DeleteByName(GetString("название брэнда"));
+                    if (list.Count == 0)
+                      linkedlistoption = "base";
                     break;
                 }
                 break;
@@ -178,6 +187,11 @@ namespace lab_12
 
                   case "add":
                     randomnessFlag = randomnessFlag ? false : true;
+                    break;
+                  case "delete":
+                    errorMessage = list.DeleteLast();
+                    if (list.Count == 0)
+                      linkedlistoption = "base";
                     break;
                 }
                 break;

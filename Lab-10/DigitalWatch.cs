@@ -16,7 +16,7 @@ namespace Lab_10
     public DigitalWatch(string name, short year, string display) : base(name, year) => DisplayType = display;
 
         public Watch GetBase => new Watch(BrandName, YearOfIssue);
-    public override string ToString() => ("Электронные часы " + BrandName + " " + YearOfIssue + " года выпуска с типом дисплея: " + DisplayType + ".");
+    public override string ToString() => "DigitalWatch: " + BrandName + "; " + YearOfIssue + "; " + DisplayType;
     public override void Init() => (this.BrandName, this.YearOfIssue, this.DisplayType) = (GetString("имя бренда"), GetShort("год выпуска"), GetString("дисплей"));
     public override void RandomInit()
     {

@@ -76,7 +76,7 @@ namespace Lab_10
         }
         public override string ToString()
         {
-            return $"Часы {YearOfIssue} года выпуска, бренда {BrandName}.";
+            return $"Watch: {YearOfIssue}; {BrandName}";
         }
 
         public virtual object Clone() => new Watch(BrandName, yearOfIssue);
